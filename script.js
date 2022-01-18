@@ -32,24 +32,27 @@ btnEncriptar.addEventListener('click', (event) => {
 function encrypt() {
 	let originalMsg = frase.value;
 	let encryptedMsg = '';
-	encryptedMsg = originalMsg.replace(/a|e|i|o|u/g, function (char) {
-		switch (char) {
-			case 'a':
-				char = 'ai';
-				return char;
-			case 'e':
-				char = 'enter';
-				return char;
-			case 'i':
-				char = 'imes';
-				return char;
-			case 'o':
-				char = 'ober';
-				return char;
-			case 'u':
-				char = 'ufat';
-				return char;
-		}
-	});
+	encryptedMsg = originalMsg.replace(/a|e|i|o|u/g, replacements);
 	return encryptedMsg;
+}
+
+function replacements(char) {
+	switch (char) {
+		case 'a':
+			char = 'ai';
+			return char;
+		case 'e':
+			char = 'enter';
+			return char;
+		case 'i':
+			char = 'imes';
+			return char;
+		case 'o':
+			char = 'ober';
+			return char;
+		case 'u':
+			char = 'ufat';
+			return char;
+	}
+	return 'perro';
 }
