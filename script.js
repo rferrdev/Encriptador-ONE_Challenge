@@ -22,21 +22,9 @@ let frase = document.getElementById('input-texto');
 let btnEncriptar = document.getElementById('btn-encriptar');
 let btnDesencriptar = document.getElementById('btn-desencriptar');
 let fraseEncriptada = document.getElementById('msg');
+let btnCopiar = document.getElementById('btn-copy');
 
-btnEncriptar.addEventListener('click', (event) => {
-	event.preventDefault();
-	let finalMsg = encrypt();
-	fraseEncriptada.value = finalMsg;
-});
-
-function encrypt() {
-	let originalMsg = frase.value;
-	let encryptedMsg = '';
-	encryptedMsg = originalMsg.replace(/a|e|i|o|u/g, replacements);
-	return encryptedMsg;
-}
-
-function replacements(char) {
+function encryptRules(char) {
 	switch (char) {
 		case 'a':
 			char = 'ai';
@@ -54,5 +42,62 @@ function replacements(char) {
 			char = 'ufat';
 			return char;
 	}
-	return 'perro';
 }
+
+function decryptRules(word) {
+	switch (word) {
+		case 'ai':
+			char = 'a';
+			return char;
+		case 'enter':
+			char = 'e';
+			return char;
+		case 'imes':
+			char = 'i';
+			return char;
+		case 'ober':
+			char = 'o';
+			return char;
+		case 'ufat':
+			char = 'u';
+			return char;
+	}
+}
+
+function encrypt() {
+	let originalMsg = frase.value;
+	let encryptedMsg = originalMsg.replace(/a|e|i|o|u/g, encryptRules);
+	return encryptedMsg;
+}
+
+function decrypt() {
+	let originalMsg = frase.value;
+	let decryptedMsg = originalMsg.replace(
+		/ai|enter|imes|ober|ufat/g,
+		decryptRules
+	);
+	return decryptedMsg;
+}
+
+function copyToClipboard() {
+	fraseEncriptada.select();
+	navigator.clipboard.writeText(fraseEncriptada.value);
+}
+
+btnEncriptar.addEventListener('click', (event) => {
+	event.preventDefault();
+	let finalMsg = encrypt();
+	fraseEncriptada.value = finalMsg;
+	frase.value = '';
+});
+
+btnDesencriptar.addEventListener('click', (event) => {
+	event.preventDefault();
+	let finalMsg = decrypt();
+	fraseEncriptada.value = finalMsg;
+});
+
+btnCopiar.addEventListener('click', (event) => {
+	event.preventDefault();
+	copyToClipboard();
+});
